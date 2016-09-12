@@ -28,8 +28,12 @@ def parseOutText(f):
         text_string = content[1].translate(string.maketrans("", ""), string.punctuation)
 
         ### project part 2: comment out the line below
-        words = text_string
-
+        #words = text_string
+        stemmer = SnowballStemmer("english")
+        items = text_string.split(' ')
+        for item in items:
+            if item != '\n' and item != '' and item != '\n\n':
+                words += stemmer.stem(item) + ' '
         ### split the text string into individual words, stem each word,
         ### and append the stemmed word to words (make sure there's a single
         ### space between each stemmed word)
@@ -38,14 +42,15 @@ def parseOutText(f):
 
 
 
-    return words
+    return words.lower()
 
     
 
 def main():
     ff = open("../text_learning/test_email.txt", "r")
     text = parseOutText(ff)
-    print text
+    #print text
+    
 
 
 

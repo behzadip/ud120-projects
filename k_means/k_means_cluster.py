@@ -36,6 +36,15 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
     plt.savefig(name)
     plt.show()
 
+def featureScaling(arr):
+    
+    den = float(max(arr) - min(arr))
+    mn = min(arr)
+    if den != 0:
+        result =  [(a - mn)/den for a in arr]
+    else:
+        result = [0.5 for a in arr]
+    return result
 
 
 ### load in the dict of dicts containing all the data on each person in the dataset
@@ -56,18 +65,25 @@ print numpy.nanmax(a)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
-feature_3 = "total_payments"
+#feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2, feature_3]
-data = featureFormat(data_dict, features_list )
-poi, finance_features = targetFeatureSplit( data )
 
+#features_list = [poi, feature_1, feature_2, feature_3]
+features_list = [poi, feature_1, feature_2]
+data = featureFormat(data_dict, features_list )
+
+data[:,1] = featureScaling(data[:,1])
+data[:,2] = featureScaling(data[:,2])
+
+poi, finance_features = targetFeatureSplit( data )
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2, _ in finance_features:
+#for f1, f2, _ in finance_features:
+
+for f1, f2 in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
