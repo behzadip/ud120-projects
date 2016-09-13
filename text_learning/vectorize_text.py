@@ -53,14 +53,14 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         ### ["sara", "shackleton", "chris", "germani"]
         rep = ["sara", "shackleton", "chris", "germani"]            
         for item in rep:
-            text = text.replace(item, '')
-        text = re.sub('\n',' ',text)            
-        text = re.sub(' +',' ',text)
-        
-        text = text.strip('\n')
-        text = text.strip()
+            text = text.replace(item, "")
+        #text = re.sub('\n',' ',text)            
+        #text = re.sub(' +',' ',text)
+        #text = re.sub('\t+',' ',text)
+        #text = text.strip('\n')
+        #text = text.strip()
         ### append the text to word_data
-        #print text            
+        #print text + '\n'       
         word_data.append(text)
         ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
         if name == 'Sara':
@@ -79,14 +79,21 @@ pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
 ### in Part 4, do TfIdf vectorization here
 
-tfidf_matrix =  tf.fit_transform(word_data)
-print len(tf.get_feature_names())
+#tfidf_matrix =  tf.fit_transform(word_data)
+#print len(tf.get_feature_names())
 
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer(stop_words=stopwords.words("english"))
-vectorizer.fit(word_data)
-vectorizer.transform(word_data)
+from sklearn.feature_extraction.text import CountVectorizer
+
+stopword_list = stopwords.words('english')
+cv =  CountVectorizer(stop_words = stopword_list)
+X = cv.fit_transform(word_data)
+
+vectorizer = TfidfVectorizer(stop_words = "english")
+feature_vector = vectorizer.fit_transform(word_data)
+
+feature_mapping = cv.get_feature_names()
 
 print len(vectorizer.get_feature_names())
 print vectorizer.get_feature_names()[34597]
