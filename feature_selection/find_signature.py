@@ -14,7 +14,6 @@ word_data = pickle.load( open(words_file, "r"))
 authors = pickle.load( open(authors_file, "r") )
 
 
-
 ### test_size is the percentage of events assigned to the test set (the
 ### remainder go into training)
 ### feature matrices changed to dense representations for compatibility with
@@ -45,8 +44,11 @@ clf = tree.DecisionTreeClassifier()
 clf.fit(features_train, labels_train)
 
 pred = clf.predict(features_test)
-print len(features_train)
-print "accuracy", accuracy_score(pred, labels_test)
+
+#print "accuracy", accuracy_score(pred, labels_test)
 print clf.score(features_test, labels_test)
+
 for item in clf.feature_importances_: 
-    if item > 0.0001: print item
+    if item > 0.2:
+        indexx = clf.feature_importances_.tolist().index(item)        
+        print item, indexx, vectorizer.get_feature_names()[indexx]

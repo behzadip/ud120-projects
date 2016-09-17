@@ -51,7 +51,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         text = parseOutText(email)
         ### use str.replace() to remove any instances of the words
         ### ["sara", "shackleton", "chris", "germani"]
-        rep = ["sara", "shackleton", "chris", "germani"]            
+        rep = ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]            
         for item in rep:
             text = text.replace(item, "")
         #text = re.sub('\n',' ',text)            
@@ -63,7 +63,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         #print text + '\n'       
         word_data.append(text)
         ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-        if name == 'Sara':
+        if name == 'sara':
             from_data.append(0)
         else:
             from_data.append(1)
