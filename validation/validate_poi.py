@@ -11,12 +11,14 @@
 """
 
 import pickle
+import numpy as np
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 from sklearn import tree
 from time import time
 from sklearn.cross_validation import train_test_split
+import sklearn.metrics as metrics
 
 data_dict = pickle.load(open("../final_project/final_project_dataset.pkl", "r") )
 
@@ -36,8 +38,14 @@ clf.fit(features_train, labels_train)
 print "training time:", round(time()-t0, 3), "s"
 t0 = time()
 print "prediction time:", round(time()-t0, 3), "s"
+
+pred = clf.predict(features_test)
 print "accuracy", clf.score(features_test, labels_test)
 
-### it's all yours from here forward!  
+#print sum(pred)
+#print len(pred)
+#print sum(labels_test)
 
-
+print np.dot(labels_test, pred)
+print metrics.precision_score(labels_test, pred)
+print metrics.recall_score(labels_test, pred)
